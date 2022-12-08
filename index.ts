@@ -79,7 +79,11 @@ export class LogData {
 export abstract class Endpoint {
 
   constructor() {
-    if (this.defaultAction === undefined || this.getLevels === undefined) {
+    if (this.defaultAction === undefined
+      || this.addLevel === undefined
+      || this.removeLevel === undefined
+      || this.getLevels === undefined
+    ) {
       throw new Error("Child class must implement all abstract methods.");
     }
     if (new.target === Endpoint) {
@@ -88,6 +92,9 @@ export abstract class Endpoint {
   }
 
   public abstract defaultAction(data: LogData): void;
+  public abstract addLevel(level: LogLevel): void;
+  public abstract removeLevel(level: LogLevel): void;
+  public abstract setLevels(levels: LogLevel[]): void;
   public abstract getLevels(): LogLevel[];
 }
 
@@ -170,7 +177,20 @@ export class File extends Endpoint {
     this.append(data.toString());
   }
 
-  public getLevels() {
+  public addLevel(level: LogLevel) {
+    if (this.levels.includes(level)) return;
+    this.levels.push(level);
+  }
+
+  public removeLevel(level: LogLevel) {
+    if (this.levels.includes(level)) this.levels.splice(this.levels.indexOf(level), 1);
+  }
+
+  public setLevels(levels: LogLevel[]) {
+    this.levels = levels;
+  }
+
+  public getLevels(): LogLevel[] {
     return this.levels;
   }
 
