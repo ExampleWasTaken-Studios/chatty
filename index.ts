@@ -2,25 +2,29 @@ import fs from "fs";
 
 export default class Chatty {
 
+  private static instantiated = false;
   private readonly endpoints: Endpoint[];
-
   private enabled: boolean;
 
-  constructor( ...endpoints: Endpoint[]) {
+  constructor(...endpoints: Endpoint[]) {
+    if (Chatty.instantiated) {
+      throw new Error("Only one instance allowed. Use existing instance instead.");
+    }
+
+    Chatty.instantiated = true;
+
     this.endpoints = endpoints;
     this.enabled = true;
   }
 
   public log(level: LogLevel, ...payload: string[]): void {
-    // TODO: handle on and off!!!
-
     switch (level) {
       case "off":
         this.enabled = false;
-        break;
+        return;
       case "on":
         this.enabled = true;
-        break;
+        return;
       case "trace":
       case "debug":
       case "info":
