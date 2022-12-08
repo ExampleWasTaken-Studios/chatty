@@ -77,6 +77,16 @@ export class LogData {
 }
 
 export abstract class Endpoint {
+
+  constructor() {
+    if (this.defaultAction === undefined || this.getLevels === undefined) {
+      throw new Error("Child class must implement all abstract methods.");
+    }
+    if (new.target === Endpoint) {
+      throw new Error("Abstract class cannot be instantiated.");
+    }
+  }
+
   public abstract defaultAction(data: LogData): void;
   public abstract getLevels(): LogLevel[];
 }
@@ -109,14 +119,14 @@ export class Console extends Endpoint {
           process.stdout.write(`${data.toString()}\n`);
           break;
         case "warn": {
-          process.stdout.write(`${data.toString().replace("WARN", `${yellow}WARN${reset}`)}\n`);
+          process.stderr.write(`${data.toString().replace("WARN", `${yellow}WARN${reset}`)}\n`);
           break;
         }
         case "error":
-          process.stdout.write(`${data.toString().replace("ERROR", `${red}ERROR${reset}`)}\n`);
+          process.stderr.write(`${data.toString().replace("ERROR", `${red}ERROR${reset}`)}\n`);
           break;
         case "fatal":
-          process.stdout.write(`${data.toString().replace("FATAL", `${red}FATAL${reset}`)}\n`);
+          process.stderr.write(`${data.toString().replace("FATAL", `${red}FATAL${reset}`)}\n`);
           break;
       }
     }
@@ -144,7 +154,7 @@ export class File extends Endpoint {
   private path: fs.PathLike;
   private levels: LogLevel[];
 
-  constructor(path: fs.PathLike, levels: LogLevel[], fileHeader: string) {
+  constructor(path: fs.PathLike, fileHeader: string, ...levels: LogLevel[]) {
     super();
     this.path = path;
     this.levels = levels;
