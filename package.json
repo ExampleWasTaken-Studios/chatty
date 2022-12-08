@@ -6,6 +6,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "start": "tsc -w",
+    "lint": "eslint ./",
     "build": "tsc"
   },
   "repository": {
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/ExampleWasTaken-Studios/chatty#readme",
   "devDependencies": {
+    "@types/node": "^18.11.11",
     "@typescript-eslint/eslint-plugin": "^5.45.1",
     "@typescript-eslint/parser": "^5.45.1",
     "eslint": "^8.29.0",
