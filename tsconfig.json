@@ -5,11 +5,12 @@
     "skipLibCheck": false,
     "module": "commonjs",
     "declaration": true,
+    "declarationMap": true,
     "outDir": "./lib",
     "strict": true,
-    "esModuleInterop": true,
+    "esModuleInterop": true
   },
-  "include": ["."],
+  "include": ["./src"],
   "exclude": [
     "node_modules",
     "lib/**/*"
