@@ -4,6 +4,7 @@ import { File } from "./File";
 import { Endpoint } from "./Endpoint";
 import { LogData } from "./LogData";
 import { LogLevel } from "./LogLevel";
+import { LogLevelPresets } from "./LogLevel";
 
 export default Chatty;
 
@@ -13,5 +14,6 @@ export {
   Endpoint,
   File,
   LogData,
-  LogLevel
+  LogLevel,
+  LogLevelPresets
 };
