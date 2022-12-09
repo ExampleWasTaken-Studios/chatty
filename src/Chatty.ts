@@ -1,19 +1,21 @@
 import { Endpoint } from "./Endpoint";
-import { LogLevel } from "./LogLevel";
+import { LogLevel, LogLevelPresets } from "./LogLevel";
 import { LogData } from "./LogData";
+import { Console } from "./Console";
 
 export default class Chatty {
 
-  private static instantiated = false;
   private readonly endpoints: Endpoint[];
   private enabled: boolean;
+  public errorHandler: (error: Error | NodeJS.ErrnoException | null) => void;
 
   constructor(...endpoints: Endpoint[]) {
-    if (Chatty.instantiated) {
-      throw new Error("Only one instance allowed. Use existing instance instead.");
-    }
+    this.errorHandler = (err) => {
+      this.log("warn", "No error handler specified. See https://github.com/ExampleWasTaken-Studios/chatty#error-handling");
+      err && this.log("error", err.toString());
 
-    Chatty.instantiated = true;
+      throw err;
+    };
 
     this.endpoints = endpoints;
     this.enabled = true;
@@ -42,3 +44,5 @@ export default class Chatty {
     }
   }
 }
+
+export const internalLogger = new Chatty(new Console(...LogLevelPresets.all));

@@ -102,3 +102,14 @@ class CustomEndpoint extends Endpoint {
 ```
 > Note that you need to override **all** abstract methods of `Endpoint`! Otherwise an error is thrown in the super constructor.
 
+## Error handling
+Chatty does its best to inform you whenever something's going wrong.  
+To do so, each `Chatty` instance has a public `errorHandler` field.
+
+#### Example
+```ts
+new Chatty(endpoints).errorHandler = (error: Error | NodeJS.ErrnoException | null) => {
+  // handle your errors here
+}
+```
+If no error handler is specified Chatty will provide a link to this readme and throw the occured error afterwards.

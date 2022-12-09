@@ -1,6 +1,7 @@
 import { Endpoint } from "./Endpoint";
 import { LogLevel } from "./LogLevel";
 import { LogData } from "./LogData";
+import { internalLogger as logger } from "./Chatty";
 import fs from "fs";
 
 export class File extends Endpoint {
@@ -13,8 +14,8 @@ export class File extends Endpoint {
     this.levels = levels;
 
     if (!fs.existsSync(this.path)) {
-      fs.writeFile(this.path, `${fileHeader}\n\n`, _err => {
-        // TODO: handle error
+      fs.writeFile(this.path, `${fileHeader}\n\n`, (err) => {
+        logger.errorHandler(err);
       });
     }
   }
@@ -41,14 +42,14 @@ export class File extends Endpoint {
   }
 
   private append(data: string) {
-    fs.appendFile(this.path, data, _err => {
-      // TODO: handle error
+    fs.appendFile(this.path, data, err => {
+      logger.errorHandler(err);
     });
   }
 
   public async delete(): Promise<void | NodeJS.ErrnoException> {
-    fs.rm(this.path, _err => {
-      // TODO: handle error
+    fs.rm(this.path, err => {
+      logger.errorHandler(err);
     });
   }
 }

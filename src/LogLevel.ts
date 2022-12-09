@@ -1,6 +1,10 @@
 export type LogLevel = "fatal" | "error" | "warn" | "info" | "debug" | "trace" | "off" | "on";
 
-export const LogLevelPresets = {
+interface LogLevelPreset {
+  [preset: string]: LogLevel[];
+}
+
+export const LogLevelPresets: LogLevelPreset = {
   all: [
     "fatal",
     "error",

@@ -1,6 +1,9 @@
 const Chatty = require("../lib/index").default;
-const { File } = require("../lib/index");
-const defaultFile = new File("../log.txt", "DEFAULT LOG FILE\n", "debug");
-const logger = new Chatty(undefined, defaultFile);
+const { Console, LogLevelPresets } = require("../lib/index");
 
-logger.log("debug", "test-file test");
+const consoleEndpoint = new Console(...LogLevelPresets.all);
+const logger = new Chatty(consoleEndpoint);
+
+logger.log("on");
+logger.log("trace", "Testing payload");
+
