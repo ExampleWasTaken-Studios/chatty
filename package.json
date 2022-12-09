@@ -1,5 +1,5 @@
 {
-  "name": "chatty",
+  "name": "@ewt-studios/chatty",
   "version": "1.0.0",
   "description": "The friendly and easy to use logger.",
   "main": "lib/index.js",
